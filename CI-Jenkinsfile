@@ -40,10 +40,12 @@ pipeline {
                     docker.withRegistry("https://${GCR_REGISTRY}", "GCP-Jenkins-Service-Account-ID") {
                         docker.image("${IMAGE_TAG}").push()
                     }
+                   }
+                  }
                 }
             }
         }
 
 
     }
-}
+
