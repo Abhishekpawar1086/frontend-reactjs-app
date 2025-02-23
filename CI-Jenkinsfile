@@ -37,7 +37,12 @@ pipeline {
             steps {
                 script {
                  withCredentials([file(credentialsId: 'GCP-Jenkins-Service-Account-ID', variable: 'GCR_KEY_FILE')]) {
-                    docker.withRegistry("https://${GCR_REGISTRY}", 'GCP-Jenkins-Service-Account-ID') {
+
+                       sh """
+                            gcloud auth activate-service-account --key-file=${GAR_KEY_FILE}
+                            gcloud auth configure-docker ${GCR_REGISTRY}
+                        """
+                        docker.withRegistry("https://${GCR_REGISTRY}", 'GCP-Jenkins-Service-Account-ID') {
                         docker.image("${IMAGE_TAG}").push()
                     }
                    }
