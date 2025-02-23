@@ -32,17 +32,18 @@ pipeline {
                 }
             }
         }
-/*
+
         stage('Push Docker Image to GCR') {
             steps {
                 script {
-                    docker.withRegistry("https://${GCR_REGISTRY}", "gcp-credentials-id") {
+                 withCredentials([file(credentialsId: 'GCP-Jenkins-Service-Account-ID', variable: 'GCR_KEY_FILE')]) {
+                    docker.withRegistry("https://${GCR_REGISTRY}", "GCP-Jenkins-Service-Account-ID") {
                         docker.image("${IMAGE_TAG}").push()
                     }
                 }
             }
         }
-*/
+
 
     }
 }
