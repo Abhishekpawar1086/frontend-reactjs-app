@@ -42,9 +42,15 @@ pipeline {
                             gcloud auth activate-service-account --key-file=${GCR_KEY_FILE}
                             gcloud auth configure-docker ${GCR_REGISTRY}
                         """
+                        /*
                         docker.withRegistry("https://${GCR_REGISTRY}", 'GCP-Jenkins-Service-Account-ID') {
                         docker.image("${IMAGE_TAG}").push()
-                    }
+                        }
+                        */
+                       sh 'cat "${GCR_KEY_FILE}" | docker login -u _json_key_base64 --password-stdin https://"${${GCR_REGISTRY}"'
+                       sh 'docker push ${IMAGE_TAG}'
+                       sh 'docker logout https://"${GCR_REGISTRY}"'
+                    
                    }
                   }
                 }
