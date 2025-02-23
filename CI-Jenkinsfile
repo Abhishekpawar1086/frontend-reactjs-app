@@ -39,11 +39,15 @@ pipeline {
                  withCredentials([file(credentialsId: 'GCP-Jenkins-Service-Account-ID', variable: 'GCR_KEY_FILE')]) {
 
                        sh """
-                            docker login -u _json_key -p $(cat ${GCR_KEY_FILE}) https://${GCR_REGISTRY}
-                            docker push ${IMAGE_TAG}
-                            docker logout https://${GCR_REGISTRY}
-                             
+                            gcloud auth activate-service-account --key-file=${GCR_KEY_FILE}
+                            gcloud auth configure-docker ${GCR_REGISTRY}
                         """
+
+                       sh '''
+                       docker login -u _json_key -p "$(cat '''+GCR_KEY_FILE+''')" https://'''+GCR_REGISTRY+'''
+                       docker push '''+IMAGE_TAG+'''
+                       docker logout https://'''+GCR_REGISTRY+'''
+                        '''
                    }
                   }
                 }
@@ -52,4 +56,3 @@ pipeline {
 
 
     }
-
