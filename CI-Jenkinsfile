@@ -37,7 +37,7 @@ pipeline {
             steps {
                 script {
                  withCredentials([file(credentialsId: 'GCP-Jenkins-Service-Account-ID', variable: 'GCP-Jenkins-Service-Account-ID')]) {
-                    docker.withRegistry("https://${GCR_REGISTRY}", "GCP-Jenkins-Service-Account-ID") {
+                    docker.withRegistry("https://${GCR_REGISTRY}", 'GCP-Jenkins-Service-Account-ID') {
                         docker.image("${IMAGE_TAG}").push()
                     }
                    }
