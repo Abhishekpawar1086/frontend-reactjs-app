@@ -48,9 +48,9 @@ pipeline {
                         }
                         */
                        sh '''
-                       cat ${GCR_KEY_FILE} | docker login -u _json_key_base64 --password-stdin https://"${${GCR_REGISTRY}"
-                       docker push ${IMAGE_TAG}
-                       docker logout https://"${GCR_REGISTRY}"
+                       docker login -u _json_key -p "$(cat '''+GCR_KEY_FILE+''')" https://'''+GCR_REGISTRY+'''
+                       docker push '''+IMAGE_TAG+'''
+                       docker logout https://'''+GCR_REGISTRY+'''
                         '''
                    }
                   }
