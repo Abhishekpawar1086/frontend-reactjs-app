@@ -1,1 +1,48 @@
+pipeline {
+    agent any
 
+    environment {
+        GCP_PROJECT = 'devops-practice-451710'
+        GKE_CLUSTER = 'your-gke-cluster-name'
+        GKE_ZONE = 'your-gke-cluster-zone'
+        GCR_REGISTRY = 'us-central1-docker.pkg.dev'
+        APP_NAME = 'frontend-reactjs-app'
+        FOLDER_NAME = 'docker-images'
+        IMAGE_TAG = "${GCR_REGISTRY}/${GCP_PROJECT}/${FOLDER_NAME}/${APP_NAME}:${BUILD_NUMBER}"
+
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'feature', url: 'https://github.com/Abhishekpawar1086/frontend-reactjs-app.git'
+            }
+        }
+/*
+        stage('Build and Test') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+*/
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.build("${IMAGE_TAG}")
+                }
+            }
+        }
+/*
+        stage('Push Docker Image to GCR') {
+            steps {
+                script {
+                    docker.withRegistry("https://${GCR_REGISTRY}", "gcp-credentials-id") {
+                        docker.image("${IMAGE_TAG}").push()
+                    }
+                }
+            }
+        }
+*/
+
+    }
+}
