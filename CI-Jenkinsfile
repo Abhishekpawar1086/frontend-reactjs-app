@@ -15,7 +15,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'origin/feature', credentialsId: 'github-user-cred', url: 'https://github.com/Abhishekpawar1086/frontend-reactjs-app.git'
+                git branch: 'refs/remotes/origin/feature', credentialsId: 'github-user-cred', url: 'https://github.com/Abhishekpawar1086/frontend-reactjs-app.git'
             }
         }
 /*
