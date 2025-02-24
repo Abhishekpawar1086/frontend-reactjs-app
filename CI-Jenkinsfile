@@ -25,6 +25,7 @@ pipeline {
             }
         }
 */
+// While Bulding Docker Image we need to give full path of gcr regestry 
         stage('Build Docker Image') {
             steps {
                 script {
