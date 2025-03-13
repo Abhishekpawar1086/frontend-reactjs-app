@@ -25,7 +25,7 @@ pipeline {
             }
         }
 */
-// While Bulding Docker Image we need to give full path of gcr regestry 
+// While Bulding Docker Image we need to give full path of gcr regestry because while in next stage when we push docker image to regestry it will know where it will nedd to push
         stage('Build Docker Image') {
             steps {
                 script {
